@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Pattern Analyzer</title>
+</head>
+<body>
+    <h1>Dark Pattern Analyzer</h1>
+    <form id="urlForm">
+        <label for="url">Enter URL:</label>
+        <input type="text" id="url" name="url" required>
+        <button type="button" onclick="analyze()">Analyze</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        function analyze() {
+            var url = document.getElementById('url').value;
+            fetch('/analyze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({ 'url': url }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerHTML = 'Result: ' + data.result;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
